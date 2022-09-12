@@ -140,6 +140,7 @@ METADATA = dict(
         "requests-oauthlib >= 0.3.0",
         "requests",
         "pyjwt[crypto] >= 1.7",
+        "django-cryptography >= 1.1"
     ],
     include_package_data=True,
     classifiers=[
