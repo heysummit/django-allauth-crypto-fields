@@ -11,6 +11,7 @@ import allauth.app_settings
 from allauth.account.models import EmailAddress
 from allauth.account.utils import get_next_redirect_url, setup_user_email
 from allauth.utils import get_user_model
+from django_cryptography.fields import encrypt
 
 from ..utils import get_request_param
 from . import app_settings, providers
