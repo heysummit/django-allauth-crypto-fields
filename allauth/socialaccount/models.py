@@ -45,31 +45,17 @@ class SocialApp(models.Model):
         choices=providers.registry.as_choices(),
     )
     name = models.CharField(verbose_name=_("name"), max_length=40)
-    client_id_old = models.CharField(
-        verbose_name=_("client id (old)"),
-        max_length=191,
-        help_text=_("App ID, or consumer key"),
-    )
     client_id = encrypt(models.CharField(
         verbose_name=_("client id"),
         max_length=191,
         help_text=_("App ID, or consumer key"),
     ))
-    secret_old = models.CharField(
-        verbose_name=_("secret key (old)"),
-        max_length=191,
-        blank=True,
-        help_text=_("API secret, client secret, or consumer secret"),
-    )
     secret = encrypt(models.CharField(
         verbose_name=_("secret key"),
         max_length=191,
         blank=True,
         help_text=_("API secret, client secret, or consumer secret"),
     ))
-    key_old = models.CharField(
-        verbose_name=_("key (old)"), max_length=191, blank=True, help_text=_("Key")
-    )
     key = encrypt(models.CharField(
         verbose_name=_("key"), max_length=191, blank=True, help_text=_("Key")
     ))
@@ -123,7 +109,6 @@ class SocialAccount(models.Model):
     )
     last_login = models.DateTimeField(verbose_name=_("last login"), auto_now=True)
     date_joined = models.DateTimeField(verbose_name=_("date joined"), auto_now_add=True)
-    extra_data_old = JSONField(verbose_name=_("extra data (old)"), default=dict)
     extra_data = encrypt(JSONWrappedTextField(verbose_name=_("extra data"), default=dict, null=True, blank=True))
 
     class Meta:
@@ -155,19 +140,10 @@ class SocialAccount(models.Model):
 class SocialToken(models.Model):
     app = models.ForeignKey(SocialApp, on_delete=models.CASCADE)
     account = models.ForeignKey(SocialAccount, on_delete=models.CASCADE)
-    token_old = models.TextField(
-        verbose_name=_("token (old)"),
-        help_text=_('"oauth_token" (OAuth1) or access token (OAuth2)'),
-    )
     token = encrypt(models.TextField(
         verbose_name=_("token"),
         help_text=_('"oauth_token" (OAuth1) or access token (OAuth2)'),
     ))
-    token_secret_old = models.TextField(
-        blank=True,
-        verbose_name=_("token secret (old)"),
-        help_text=_('"oauth_token_secret" (OAuth1) or refresh token (OAuth2)'),
-    )
     token_secret = encrypt(models.TextField(
         blank=True,
         verbose_name=_("token secret"),
