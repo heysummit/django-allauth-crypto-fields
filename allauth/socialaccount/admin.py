@@ -32,6 +32,7 @@ class SocialAccountAdmin(admin.ModelAdmin):
     raw_id_fields = ("user",)
     list_display = ("user", "uid", "provider")
     list_filter = ("provider",)
+    readonly_fields=('extra_data',)
 
     def get_search_fields(self, request):
         base_fields = get_adapter().get_user_search_fields()

@@ -49,3 +49,20 @@ class JSONField(models.TextField):
         """Return value dumped to string."""
         val = super(JSONField, self).value_from_object(obj)
         return self.get_prep_value(val)
+
+
+class JSONWrappedTextField(models.TextField):
+    """
+    A field that will ensure the data entered into it is valid JSON.
+    """
+    def to_python(self, value):
+        if isinstance(value, str):
+            value = super(JSONWrappedTextField, self).to_python(value)
+            value = json.loads(value)
+        return value
+
+    def get_db_prep_value(self, value, connection, prepared=False):
+        value = super(JSONWrappedTextField, self).get_db_prep_value(value, connection, prepared)
+        if isinstance(value, dict):
+            value = json.dumps(value)
+        return value
